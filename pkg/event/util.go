@@ -29,13 +29,7 @@ type Event struct {
 	Traits          map[string]EventTrait     `json:"traits"`
 }
 
-func (evt *Event) UnmarshalMinifiedJSON(data []byte) error {
-	var minifiedEvent map[string]string
-
-	if err := json.Unmarshal(data, &minifiedEvent); err != nil {
-		return err
-	}
-
+func (evt *Event) LoadFromMinifiedEvent(minifiedEvent map[string]string) {
 	evt.Event = minifiedEvent["ev"]
 	evt.EventType = minifiedEvent["et"]
 	evt.AppId = minifiedEvent["id"]
@@ -65,6 +59,16 @@ func (evt *Event) UnmarshalMinifiedJSON(data []byte) error {
 			}
 		}
 	}
+}
+
+func (evt *Event) LoadFromMinifiedEventBytes(data []byte) error {
+	var minifiedEvent map[string]string
+
+	if err := json.Unmarshal(data, &minifiedEvent); err != nil {
+		return err
+	}
+
+	evt.LoadFromMinifiedEvent(minifiedEvent)
 
 	return nil
 }

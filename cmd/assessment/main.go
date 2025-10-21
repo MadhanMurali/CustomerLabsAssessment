@@ -51,7 +51,7 @@ func main() {
 	}`
 
 	event := event.Event{}
-	if err := event.UnmarshalMinifiedJSON([]byte(input)); err != nil {
+	if err := event.LoadFromMinifiedEventBytes([]byte(input)); err != nil {
 		fmt.Println(err)
 		return
 	}
